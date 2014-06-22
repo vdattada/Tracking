@@ -68,7 +68,7 @@ distance = img.colorDistance(img.getPixel(120,150))
 distance.show()
 bigImg = img.scale(4)
 bigImg.show()
-#img.show()
+img.show()
 
 #blobs = img.findBlobs()
 #print blobs.count(10)
