@@ -11,6 +11,6 @@ disp = Display(screenSize)
 while not disp.isDone():
     img = cam.getImage()
     coloredImg = img.applyRGBCurve(rCurve,gbCurve,gbCurve)
-    erodedImg = coloredImg.erode(1)
+    erodedImg = coloredImg.erode(1).dilate(2)
     erodedImg.save(disp)
     erodedImg.sideBySide(coloredImg)

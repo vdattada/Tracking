@@ -1,10 +1,25 @@
-from SimpleCV import Color, Image
-import time
+from SimpleCV import Camera, Display, Image, Color
 
-img = Image("mandms-dark.png")
-blue_distance = img.hueDistance(Color.LEGO_BLUE).invert()
-blobs = blue_distance.findBlobs()
-blobs.draw(color=Color.BLUE, width=2)
-img.addDrawingLayer(blue_distance.dl())
-img.show()
-time.sleep(15)
+display = Display()
+cam = Camera()
+normaldisplay = True
+
+while display.isNotDone():
+
+	if display.mouseRight:
+		normaldisplay = not(normaldisplay)
+		print "Display Mode:", "Normal" if normaldisplay else "Segmented" 
+	
+	img = cam.getImage().flipHorizontal()
+	dist = img.colorDistance(Color.ORANGE).dilate(2)
+	segmented = dist.stretch(200,255)
+	blobs = segmented.findBlobs()
+	if blobs:
+		circles = blobs.filter([b.isCircle(0.2) for b in blobs])
+		if circles:
+			img.drawCircle((circles[-1].x, circles[-1].y), circles[-1].radius(),Color.BLUE,3)
+
+	if normaldisplay:
+		img.show()
+	else:
+		segmented.show()

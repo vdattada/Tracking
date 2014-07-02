@@ -2,9 +2,8 @@ import SimpleCV
 cam = SimpleCV.Camera(0, prop_set={"width": 656, "height": 492})
 
 while True:
-    img = cam.getImage()
-    '''.flipHorizontal()'''
-    dist = img.colorDistance(SimpleCV.Color.BLACK).dilate(2)
+    img = cam.getImage().flipHorizontal()
+    dist = img.colorDistance(SimpleCV.Color.ORANGE).dilate(2)
     segmented = dist.stretch(200,255)
     blobs = segmented.findBlobs()
     if blobs:
